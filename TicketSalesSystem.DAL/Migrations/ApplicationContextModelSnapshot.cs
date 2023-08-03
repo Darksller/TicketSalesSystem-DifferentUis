@@ -17,7 +17,7 @@ namespace TicketSalesSystem.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -174,6 +174,9 @@ namespace TicketSalesSystem.DAL.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
+                    b.Property<int>("MaxCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -198,6 +201,9 @@ namespace TicketSalesSystem.DAL.Migrations
 
                     b.Property<int>("FlightId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Place")
                         .HasColumnType("int");
@@ -264,7 +270,7 @@ namespace TicketSalesSystem.DAL.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -278,10 +284,17 @@ namespace TicketSalesSystem.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.HasIndex("RoleId");
 
@@ -349,7 +362,7 @@ namespace TicketSalesSystem.DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("TicketSalesSystem.DAL.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Tickets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -422,6 +435,8 @@ namespace TicketSalesSystem.DAL.Migrations
 
             modelBuilder.Entity("TicketSalesSystem.DAL.Entities.User", b =>
                 {
+                    b.Navigation("Tickets");
+
                     b.Navigation("Token");
                 });
 #pragma warning restore 612, 618

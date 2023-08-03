@@ -23,6 +23,11 @@ namespace TicketSalesSystem.MVC.Controllers
 			return View(res);
 		}
 
+		public IActionResult Documentation()
+		{
+			return View();
+		}
+
 		public IActionResult Privacy()
 		{
 			return View();
